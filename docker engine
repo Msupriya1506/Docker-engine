@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Setup Hostname 
+hostnamectl set-hostname "docker.cloudbinary.io"
+
+# Configure Hostname unto hosts file 
+echo "`hostname -I | awk '{ print $1}'` `hostname`" >> /etc/hosts 
+
+# Update the Ubuntu Local Repository with Online Repository 
+sudo apt update 
+
+# Download, Install & Configure Utility Softwares 
+sudo apt install git curl unzip tree wget -y 
+
+# Install Docker on Ubuntu Server
+sudo apt-get install docker.io -y 
+
+# Enable Docker For Ubuntu User
+sudo usermod -aG docker ubuntu
+
+# Grant Access Docker Socket
+sudo chmod 777 /var/run/docker.sock
+
+# Enable Docker Services at boot level
+sudo systemctl enable docker
+
+# Restart Docker Daemon 
+sudo systemctl restart docker
+
+------------------------------------
+
+To check images:
+    $ docker images
+
+To check container status:
+    $ docker ps 
+
+To check all container status:
+    $ docker ps -a 
+
+To run or start a container from image:
+    $ docker run -d --name anyname -p 80:80 c3f279d17e0a
+
+To login to container:
+    $ docker exec -it container_id /bin/bash
+
+To create Image from a container:
+    $ docker commit c3f279d17e0a  kesavkummari/httpd123:1.3.0
+
+To login to docker hub:
+    $ docker login
+
+    $ docker images
+
+Tag the image and push it hub.docker.com :
+
+    $ docker tag 78dcb7cc3f9f kesavkummari/httpd123:2.0.0
+ 
+    $ docker images
+
+    $ docker push kesavkummari/httpd123:2.0.0
